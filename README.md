@@ -1,2 +1,2 @@
-# computational-linguistics
-Assignments for CS325 Computation Linguistics
+# Computational Linguistics
+Assignments for CS325 Computation Linguistics (Fall, 2022)
