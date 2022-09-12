@@ -17,18 +17,16 @@ def percentage_use(word, words):
     # convert the list of tokens into on string 
     text = " ".join(words)
 
-    # get size of text
-    text_size = len(words)
-
-    r = [l for l in text if re.search(" " + word + " ", text)]
-    print(r)
+    # \b isn't working the desired way, which'll be a problem in the future but for now it's fine since due to
+    # implementation each token is separated by spaces
+    r = re.findall(r" " + word + " ", text)
  
-    return 0
+    return len(r) / len(words)
 
 def test_case():
     # haiku = "Row row row your boat. Rowing gently down the stream. Life is so extreme."
     haikuTokens = ['Row', 'row', 'row', 'your', 'boat', '.', 'Rowing', 'gently', 'down', 'the', 'stream', '.', 'Life', 'is', 'so', 'extreme', '.']
     usage = percentage_use('the', haikuTokens)
-    print(usage)
+    print("%.4f" % usage)
 
 test_case()
