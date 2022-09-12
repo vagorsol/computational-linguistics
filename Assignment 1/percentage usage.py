@@ -4,7 +4,7 @@
     Date: September 12, 2022
 '''
 import re
-# from nltk.book import *
+from nltk.book import *
 
 def percentage_use(word, words):
     '''
@@ -29,4 +29,21 @@ def test_case():
     usage = percentage_use('the', haikuTokens)
     print("%.4f" % usage)
 
-test_case()
+def main():
+    # Usage of 'the' in Sense and Sensibility by Jane Austen
+    text2_theusage = percentage_use('the',text2)
+    print("2 Usage of 'the' in Text: %.4f" % text2_theusage)
+
+    # Usage of 'the'" in Presidental Inaugural Address Corpus                                                                                                                                                                                                                                                                                                                   
+    text4_theusage = percentage_use('the', text4)
+    print("Text 4 Usage of 'the' in Text: %.4f" % text4_theusage)
+
+    # Usage of 'the'" inChat Corpus
+    text5_theusage = percentage_use('the', text5)
+    print("Text 5 Usage of 'the' in Text: %.4f" % text5_theusage)
+    
+    # Usage of 'the'" in Monty Python and the Holy Grail
+    text6_theusage = percentage_use('the', text6)
+    print("Text 6 Usage of 'the' in Text: %.4f" % text6_theusage)
+
+main()
