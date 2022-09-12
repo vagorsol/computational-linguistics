@@ -1,9 +1,15 @@
+'''    
+    Computes the Lexical Diversity of a given text
+    Author: Audrey Yang
+    Date: September 12, 2022
+'''
+
 from nltk.book import *
 
 def lexical_diversity(tokens):
     '''Return lexical diversity of a given list of words (case senseitive)
-
-        Returns: length of list of unique tokens
+        Params: tokens, a list of tokens
+        Returns: length of the list of unique tokens
     '''
 
     # add only unique instances of elements
@@ -11,8 +17,6 @@ def lexical_diversity(tokens):
     for l in tokens:
         if not(l in ret):
             ret.append(l)
-    # ret = [l for l in tokens if not (l in ret)]
-    # print(ret)
     return len(ret)
 
 def test_case():
@@ -24,6 +28,10 @@ def test_case():
     print("%.4f" % lexdiv_divis)
 
 def main(): 
+    '''
+        Analyzing the lexical diversity of various texts provided in nltk
+    '''
+
     # Lexical Diversity of Sense and Sensibility by Jane Austen
     text2_lexdiv = lexical_diversity(text2) / len(text2)
     print("Text 2 Lexical Diversity: %.4f\%" % text2_lexdiv)
