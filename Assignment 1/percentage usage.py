@@ -16,11 +16,9 @@ def percentage_use(word, words):
 
     # convert the list of tokens into on string 
     text = " ".join(words)
-
-    # \b isn't working the desired way, which'll be a problem in the future but for now it's fine since due to
-    # implementation each token is separated by spaces
-    r = re.findall(r" " + word + " ", text)
- 
+    
+    r = re.findall(r'\b' + word + r'\b', text)
+    
     return len(r) / len(words)
 
 def test_case():
@@ -29,10 +27,11 @@ def test_case():
     usage = percentage_use('the', haikuTokens)
     print("%.4f" % usage)
 
+
 def main():
     # Usage of 'the' in Sense and Sensibility by Jane Austen
     text2_theusage = percentage_use('the',text2)
-    print("2 Usage of 'the' in Text: %.4f" % text2_theusage)
+    print("Text 2 Usage of 'the' in Text: %.4f" % text2_theusage)
 
     # Usage of 'the'" in Presidental Inaugural Address Corpus                                                                                                                                                                                                                                                                                                                   
     text4_theusage = percentage_use('the', text4)
