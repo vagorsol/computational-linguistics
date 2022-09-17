@@ -2,15 +2,17 @@
     Return all words with a given prefix
     Author: Audrey Yang
     Date: September 15, 2022
-'''
+''' 
 
 import re
-# import nltk
+import nltk
 
 def find_prefix(word, words):
     text = " ".join(words)
-    print(word)
-    r = re.findall(r"\b" + word, text)
+    
+    pref_regex = r"\b" + re.escape(word) +r"[^\s]+"
+
+    r = re.findall(pref_regex, text)
 
     return r
 
@@ -21,4 +23,11 @@ def test_case():
     print(usage)
     print(len(usage))
 
-test_case()
+
+def main():
+    wordlist = nltk.corpus.words.words("en")
+    un_list = find_prefix("un", wordlist)
+    print(un_list[:25])
+    print(len(un_list))
+
+main()
