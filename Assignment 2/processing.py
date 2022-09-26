@@ -9,7 +9,7 @@ from nltk.corpus import gutenberg
 
 def sentence_split(text):
     # split sentences
-    split_text = re.split(r'((?<=[\.!?\"])\s\s+)', text)
+    split_text = re.split(r'((?<=[\.!?\"])\s\s+|[\n]{2})', text)
 
     count = 0
     # get lenght of nonempty sentences to initialize the returned array
@@ -49,7 +49,7 @@ def test():
 
     # test_txt = "This is a test string, with lots of: punctuations; in it?!."
     # word_split(test_txt)
-
+    print()
     compare_sent = gutenberg.sents("austen-emma.txt")
     print(compare_sent[:10]) 
 
