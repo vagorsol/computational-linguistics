@@ -9,33 +9,42 @@ from nltk.corpus import gutenberg
 
 def sentence_split(text):
     # split sentences
-    split_text = re.split(r'(?<=[\.!?\"])\s\s+', text)
+    split_text = re.split(r'((?<=[\.!?\"])\s\s+)', text)
+
+    count = 0
+    # get lenght of nonempty sentences to initialize the returned array
+    for line in split_text:
+        app_sent = word_split(line)
+        if(app_sent != []):
+            count +=1
 
     # then, split each sentences
-    ret = [[] for x in range(len(split_text))] 
+    ret = [[] for x in range(count)] 
     i = 0
 
-    for sent in split_text:
-        ret[i] = word_split(sent)
-        i += 1
-
+    for line in split_text:
+        app_sent = word_split(line)
+        if(app_sent != []):
+            ret[i] = word_split(line)
+            i += 1
     return ret
     
 
 def word_split(text):
+
     #split string by words
-    print(text)
     split_text = re.split(r"([^\w])", text)
 
     # parse out spaces
     ret = [word for word in split_text if word != " " and word != "" and word != "\n" and word != "\t"]
-    print(ret)
+
     return ret
 
 def test():
-    print("Own sentence splitter test:")
     text = gutenberg.raw("austen-emma.txt")
-    ret = sentence_split(text)
+    #print(text)
+    ret = sentence_split(text[:1000])
+    print("output")
     print(ret[:10])
 
     # test_txt = "This is a test string, with lots of: punctuations; in it?!."
@@ -47,5 +56,4 @@ def test():
     # compare_words = gutenberg.words("austen-emma.txt")
     # print(compare_words[:50])
     
-
 test()
