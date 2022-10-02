@@ -107,9 +107,7 @@ def test():
     # print(compare_sent[:10]) 
 
     # compare_words = gutenberg.words("austen-emma.txt")
-    # print(compare_words[:50])
-    
-    
+    # print(compare_words[:50])  
 
 def main(): 
     # JANE AUSTEN CORPUS   
