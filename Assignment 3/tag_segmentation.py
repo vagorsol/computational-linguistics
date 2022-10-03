@@ -26,7 +26,7 @@ def max_match(word, word_list):
     while start < len(word):
         match = False
         for i in range(len(word), 0, -1):
-            print("Checking", word[start:i])
+            # print("Checking", word[start:i])
             if(word[start:i] in word_list):
                 words.append(word[start:i])
                 match = True
@@ -89,18 +89,29 @@ def linux_dict():
 def main():
     # open the comparison file
     wordbank = open("testHashtags.txt", "r").readlines()
-    # print(wordbank)
 
     # "clean up" the wordbank (i.e., remove all "\n")
     words = " ".join(wordbank)
     words = re.sub("\n", "", words)
-    # print(words)
+
+    # open the "rhymes with frugal" dictionary
+    rhymesbank = open("bigWordList.txt", "r").readlines()
+
+    # "clean up" the Frugal Rhymes dictionary (i.e., remove all "\n")
+    rhymesspliced = " ".join(rhymesbank)
+    rhymesspliced = re.sub("\n", "", rhymesspliced)
+    rhymesbank = rhymesspliced.split(" ")
 
     # MaxMatch with the NLTK corpus
-    NLTKdict = nltk.corpus.words.words()
+    '''NLTKdict = nltk.corpus.words.words()
     print("MaxMatch with NLTK corpus")
     NLTKwords = max_match(words, NLTKdict)
-    print(NLTKwords)
+    print(NLTKwords)'''
+
+    #MaxMatch with the Frugal Rhymes dictionary
+    print("Matching with Frugal Rhymes dictionary")
+    rhymeswords = max_match(words, rhymesbank)
+    print(rhymeswords)
 # to demonstrate my errors point
 # linux_dict()
 
