@@ -4,7 +4,10 @@
     Date: October 2, 2022
 '''
 
+import nltk
 import numpy as np
+import os
+import re
 
 def max_match(word, word_list):
     '''
@@ -22,16 +25,16 @@ def max_match(word, word_list):
 
     while start < len(word):
         match = False
-        for i in range(len(words), 0, -1):
-            #print("Checking", word[start:i])
+        for i in range(len(word), 0, -1):
+            print("Checking", word[start:i])
             if(word[start:i] in word_list):
                 words.append(word[start:i])
                 match = True
                 start = i 
                 break
-            if not match:
-                words.append(word[start])
-                start += 1
+        if not match:
+            words.append(word[start])
+            start += 1
     return words
 
 def min_edit_dist(source, target):
@@ -75,5 +78,30 @@ def min_edit_dist(source, target):
 
     return D[len(source), len(target)]
 
-min_ed = min_edit_dist("cat", "cate")
-print(min_ed)
+def linux_dict():
+    
+    print(os.getcwd())
+    new_path = os.path.relpath('/usr/share/dict/words', os.getcwd())
+    print(new_path)
+
+    linux_dictionary = open("..\\..\\..\\..\\..\\usr\\share\\dict\\words", "r")
+
+def main():
+    # open the comparison file
+    wordbank = open("testHashtags.txt", "r").readlines()
+    # print(wordbank)
+
+    # "clean up" the wordbank (i.e., remove all "\n")
+    words = " ".join(wordbank)
+    words = re.sub("\n", "", words)
+    # print(words)
+
+    # MaxMatch with the NLTK corpus
+    NLTKdict = nltk.corpus.words.words()
+    print("MaxMatch with NLTK corpus")
+    NLTKwords = max_match(words, NLTKdict)
+    print(NLTKwords)
+# to demonstrate my errors point
+# linux_dict()
+
+main()
