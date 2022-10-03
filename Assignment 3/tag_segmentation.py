@@ -90,6 +90,7 @@ def main():
     wordbank = words.split(" ")
 
     # MaxMatch with the NLTK corpus
+    nltk.download('words')
     NLTKdict = nltk.corpus.words.words()
     print("MaxMatch with NLTK corpus")
     NLTKwords = []
