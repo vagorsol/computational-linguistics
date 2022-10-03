@@ -6,7 +6,6 @@
 
 import nltk
 import numpy as np
-import os
 import io
 import re
 
@@ -79,6 +78,20 @@ def min_edit_dist(source, target):
 
     return D[len(source), len(target)]
 
+def answers_list():
+    '''
+        Formats the "answer key" in such a way so that the MaxMatch results can be compared with it
+
+        Returns: answers, a formatted list of the corect segmentation
+    '''
+    answers_list = open("testWithAnswers.txt", "r").readlines()
+    answers = []
+    for i in range(len(answers_list)):
+        line = answers_list[i].split(",")
+        line[1] = re.sub("\n", "", line[1])
+        ret = line[1].split(" ")
+        answers.append(ret)
+    return answers
 
 def main():
     # open the comparison file
@@ -132,4 +145,5 @@ def main():
 
     print(rhymeswords)
 
-main()
+answers = answers_list()
+print(answers)
