@@ -7,6 +7,7 @@
 import nltk
 import numpy as np
 import os
+import io
 import re
 
 def max_match(word, word_list):
@@ -79,13 +80,24 @@ def min_edit_dist(source, target):
     return D[len(source), len(target)]
 
 def linux_dict():
-    
-    print(os.getcwd())
-    new_path = os.path.relpath('/usr/share/dict/words', os.getcwd())
+    '''
+        Function for debugging to open the Linux Dictionary
+    '''
+    new_path = os.path.relpath('/usr/share/dict', os.getcwd())
     print(new_path)
+    print(os.path.isfile(new_path))
+    print(os.path.isdir(new_path))
 
-    linux_dictionary = open(new_path, "r")
-    print(linux_dictionary.readlines())
+    path_again = os.path.realpath(os.path.join(new_path, 'words'))
+
+    print(path_again)
+    print(os.path.isfile(path_again))
+    print(os.path.isdir(path_again))
+
+    # linux_dictionary = io.open(new_path, 'r', encoding='utf8').read()
+    # print(linux_dictionary)
+    # linux_dictionary = open(new_path, "r")
+    # print(linux_dictionary.readlines())
 
 def main():
     # open the comparison file
@@ -123,6 +135,6 @@ def main():
 
     print(rhymeswords)
 # to demonstrate my errors point
-# linux_dict()
+linux_dict()
 
-main()
+# main()
