@@ -84,7 +84,8 @@ def linux_dict():
     new_path = os.path.relpath('/usr/share/dict/words', os.getcwd())
     print(new_path)
 
-    linux_dictionary = open("..\\..\\..\\..\\..\\usr\\share\\dict\\words", "r")
+    linux_dictionary = open(new_path, "r")
+    print(linux_dictionary.readlines())
 
 def main():
     # open the comparison file
@@ -93,6 +94,7 @@ def main():
     # "clean up" the wordbank (i.e., remove all "\n")
     words = " ".join(wordbank)
     words = re.sub("\n", "", words)
+    wordbank = words.split(" ")
 
     # open the "rhymes with frugal" dictionary
     rhymesbank = open("bigWordList.txt", "r").readlines()
@@ -103,14 +105,22 @@ def main():
     rhymesbank = rhymesspliced.split(" ")
 
     # MaxMatch with the NLTK corpus
-    '''NLTKdict = nltk.corpus.words.words()
+    NLTKdict = nltk.corpus.words.words()
     print("MaxMatch with NLTK corpus")
-    NLTKwords = max_match(words, NLTKdict)
-    print(NLTKwords)'''
+    NLTKwords = []
+
+    for word in wordbank:
+        NLTKwords.append(max_match(word, NLTKdict))
+    
+    print(NLTKwords)
 
     #MaxMatch with the Frugal Rhymes dictionary
-    print("Matching with Frugal Rhymes dictionary")
-    rhymeswords = max_match(words, rhymesbank)
+    print("\nMatching with Frugal Rhymes dictionary")
+    rhymeswords = []
+
+    for word in wordbank:
+        rhymeswords.append(max_match(word, rhymesbank))
+
     print(rhymeswords)
 # to demonstrate my errors point
 # linux_dict()

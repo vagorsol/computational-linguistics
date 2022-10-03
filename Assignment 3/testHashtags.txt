@@ -1,5 +1,5 @@
 computerscience
-bigbangtheory 
+bigbangtheory
 thethe
 breakingbad
 talklikeapirateday
@@ -7,8 +7,8 @@ ilovemyfans
 higgsboson
 thirstythursday
 twentysomething
-paidmedia
 hispanicheritagemonth
+uppercase
 news
 snowday
 nobelprize
