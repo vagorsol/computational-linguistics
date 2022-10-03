@@ -79,25 +79,6 @@ def min_edit_dist(source, target):
 
     return D[len(source), len(target)]
 
-def linux_dict():
-    '''
-        Function for debugging to open the Linux Dictionary
-    '''
-    new_path = os.path.relpath('/usr/share/dict', os.getcwd())
-    print(new_path)
-    print(os.path.isfile(new_path))
-    print(os.path.isdir(new_path))
-
-    path_again = os.path.realpath(os.path.join(new_path, 'words'))
-
-    print(path_again)
-    print(os.path.isfile(path_again))
-    print(os.path.isdir(path_again))
-
-    # linux_dictionary = io.open(new_path, 'r', encoding='utf8').read()
-    # print(linux_dictionary)
-    # linux_dictionary = open(new_path, "r")
-    # print(linux_dictionary.readlines())
 
 def main():
     # open the comparison file
@@ -107,14 +88,6 @@ def main():
     words = " ".join(wordbank)
     words = re.sub("\n", "", words)
     wordbank = words.split(" ")
-
-    # open the "rhymes with frugal" dictionary
-    rhymesbank = open("bigWordList.txt", "r").readlines()
-
-    # "clean up" the Frugal Rhymes dictionary (i.e., remove all "\n")
-    rhymesspliced = " ".join(rhymesbank)
-    rhymesspliced = re.sub("\n", "", rhymesspliced)
-    rhymesbank = rhymesspliced.split(" ")
 
     # MaxMatch with the NLTK corpus
     NLTKdict = nltk.corpus.words.words()
@@ -126,6 +99,29 @@ def main():
     
     print(NLTKwords)
 
+    #open the Linux Dictionary
+    linux_dictionary = io.open("/usr/share/dict/words", 'r', encoding='utf8').readlines()
+
+    # "clean up" the Linux Dictionary (i.e., remove all "\n")
+    linuxspliced = " ".join(linux_dictionary)
+    linuxspliced = re.sub("\n", "", linuxspliced)
+    linux_dictionary = linuxspliced.split(" ")
+
+    #MaxMatch with the Linux Dictionary
+    print("\nMatchMax with Linux Dictionary")
+    linuxwords = []
+    for word in wordbank:
+        linuxwords.append(max_match(word, linux_dictionary))
+    print(linuxwords)
+
+    # open the "rhymes with frugal" dictionary
+    rhymesbank = open("bigWordList.txt", "r").readlines()
+
+    # "clean up" the Frugal Rhymes dictionary (i.e., remove all "\n")
+    rhymesspliced = " ".join(rhymesbank)
+    rhymesspliced = re.sub("\n", "", rhymesspliced)
+    rhymesbank = rhymesspliced.split(" ")
+
     #MaxMatch with the Frugal Rhymes dictionary
     print("\nMatching with Frugal Rhymes dictionary")
     rhymeswords = []
@@ -134,7 +130,5 @@ def main():
         rhymeswords.append(max_match(word, rhymesbank))
 
     print(rhymeswords)
-# to demonstrate my errors point
-linux_dict()
 
-# main()
+main()
