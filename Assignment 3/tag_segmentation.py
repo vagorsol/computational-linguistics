@@ -89,10 +89,12 @@ def answers_list():
     for i in range(len(answers_list)):
         line = answers_list[i].split(",")
         line[1] = re.sub("\n", "", line[1])
-        ret = line[1].split(" ")
-        answers.append(ret)
+        # ret = line[1].split(" ")
+        answers.append(line[1])
     return answers
 
+# TODO: format the elements of the returned list banks in such a way that WER can be preformed on them
+# TODO: i.e., for each sub array, " ".join(line)
 def main():
     # open the comparison file
     wordbank = open("testHashtags.txt", "r").readlines()
@@ -113,7 +115,13 @@ def main():
     
     print(NLTKwords)
 
-    #open the Linux Dictionary
+    #format for later WER 
+    NLTKwerlst = []
+    for seg in NLTKwords:
+        ret = " ".join(seg)
+        NLTKwerlst.append(ret)
+    
+    '''#open the Linux Dictionary
     linux_dictionary = io.open("/usr/share/dict/words", 'r', encoding='utf8').readlines()
 
     # "clean up" the Linux Dictionary (i.e., remove all "\n")
@@ -127,6 +135,13 @@ def main():
     for word in wordbank:
         linuxwords.append(max_match(word, linux_dictionary))
     print(linuxwords)
+    
+    #format for later WER 
+    linuxwerlst = []
+    for seg in linuxwords:
+        ret = " ".join(seg)
+        linuxwerlst.append(ret)
+    '''
 
     # open the "rhymes with frugal" dictionary
     rhymesbank = open("bigWordList.txt", "r").readlines()
@@ -144,6 +159,16 @@ def main():
         rhymeswords.append(max_match(word, rhymesbank))
 
     print(rhymeswords)
+    
+    #format for later WER 
+    rhymeswerlst = []
+    for seg in rhymeswords:
+        ret = " ".join(seg)
+        rhymeswerlst.append(ret)
 
-answers = answers_list()
-print(answers)
+    #get the answer list
+    answers = answers_list()
+
+    # conduct WER for the NLTK corpus
+
+main()
