@@ -173,6 +173,7 @@ def main():
         rhymeswords.append(max_match(word, rhymesbank))
 
     print(rhymeswords)
+    print()
     
     #format for later WER 
     rhymeswerlst = []
