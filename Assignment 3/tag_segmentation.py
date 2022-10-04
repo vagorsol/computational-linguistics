@@ -136,7 +136,7 @@ def main():
         ret = " ".join(seg)
         NLTKwerlst.append(ret)
     
-    '''#open the Linux Dictionary
+    #open the Linux Dictionary
     linux_dictionary = io.open("/usr/share/dict/words", 'r', encoding='utf8').readlines()
 
     # "clean up" the Linux Dictionary (i.e., remove all "\n")
@@ -156,7 +156,6 @@ def main():
     for seg in linuxwords:
         ret = " ".join(seg)
         linuxwerlst.append(ret)
-    '''
 
     # open the "rhymes with frugal" dictionary
     rhymesbank = open("bigWordList.txt", "r").readlines()
@@ -173,7 +172,7 @@ def main():
     for word in wordbank:
         rhymeswords.append(max_match(word, rhymesbank))
 
-    # print(rhymeswords)
+    print(rhymeswords)
     
     #format for later WER 
     rhymeswerlst = []
@@ -196,7 +195,34 @@ def main():
         print(text)
     # output average
     NLTKwerage = NLTKwerage / len(NLTKwerlst)
-    print("Average WER for NLTK corpus: %f"%NLTKwerage)
+    print("Average WER for NLTK corpus: %f\n"%NLTKwerage)
     
+    # conduct WER for the linux dictionary
+    linuxwerage = 0
+    for i in range(len(answers)):
+        # get the WER for that particular guess and answer
+        iWER = WER(linuxwerlst[i], answers[i])
+        linuxwerage += iWER
+
+        # format and print results
+        text = "{}) {}, {}: {}".format(i+1,  linuxwerlst[i], answers[i], iWER)
+        print(text)
+    # output average
+    linuxwerage = linuxwerage / len(linuxwerlst)
+    print("Average WER for the Linux dictionary: %f\n"%linuxwerage)
+
+    # conduct WER for the rhymes dictionary
+    rhymeswerage = 0
+    for i in range(len(answers)):
+        # get the WER for that particular guess and answer
+        iWER = WER(rhymeswerlst[i], answers[i])
+        rhymeswerage += iWER
+
+        # format and print results
+        text = "{}) {}, {}: {}".format(i+1,  rhymeswerlst[i], answers[i], iWER)
+        print(text)
+    # output average
+    rhymeswerage = rhymeswerage / len(rhymeswerlst)
+    print("Average WER for the \'Rhymes\' dictionary: %f"%rhymeswerage)
 
 main()
