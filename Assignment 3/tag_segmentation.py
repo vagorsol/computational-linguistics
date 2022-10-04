@@ -93,8 +93,23 @@ def answers_list():
         answers.append(line[1])
     return answers
 
-# TODO: format the elements of the returned list banks in such a way that WER can be preformed on them
-# TODO: i.e., for each sub array, " ".join(line)
+def WER(guess, answer):
+    '''
+        Computes the Word Error Rate (WER) between a guess and the correct answer where
+        WER is the minimum edit distance divided by the length of the answer (i.e., the normalized
+        minimum edit distance)        
+
+        Params: 
+            guess: the assumed string segmentation 
+            answer: the correct string segmentation which you are comparing guess against
+        Returns:
+            ret: the normalized minimum edit distance
+    '''
+    edit_dist = min_edit_dist(guess, answer)
+    ret = edit_dist / len(answer)
+
+    return ret 
+
 def main():
     # open the comparison file
     wordbank = open("testHashtags.txt", "r").readlines()
@@ -158,7 +173,7 @@ def main():
     for word in wordbank:
         rhymeswords.append(max_match(word, rhymesbank))
 
-    print(rhymeswords)
+    # print(rhymeswords)
     
     #format for later WER 
     rhymeswerlst = []
@@ -168,7 +183,20 @@ def main():
 
     #get the answer list
     answers = answers_list()
-
+    
     # conduct WER for the NLTK corpus
+    NLTKwerage = 0
+    for i in range(len(answers)):
+        # get the WER for that particular guess and answer
+        iWER = WER(NLTKwerlst[i], answers[i])
+        NLTKwerage += iWER
+
+        # format and print results
+        text = "{}) {}, {}: {}".format(i+1,  NLTKwerlst[i], answers[i], iWER)
+        print(text)
+    # output average
+    NLTKwerage = NLTKwerage / len(NLTKwerlst)
+    print("Average WER for NLTK corpus: %f"%NLTKwerage)
+    
 
 main()
