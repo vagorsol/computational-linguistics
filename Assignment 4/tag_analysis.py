@@ -67,9 +67,9 @@ for (word_tag, count) in pun_table.most_common()[:10]:
 # find 10 most frequent determiners 
 det_table = nltk.FreqDist()
 for(word, tag) in tagged_words_uni:
-    if tag == '.':
+    if tag == 'DET':
         det_table[word+"/"+tag]+=1
-print("\nMost Frequent PUNCTUATIONS:")
+print("\nMost Frequent DETERMINERS:")
 for (word_tag, count) in det_table.most_common()[:10]:
     print(count, word_tag)
 
