@@ -1,3 +1,9 @@
+'''
+    Tag Frequency Analysis
+    Author: Audrey Yang
+    Date: October 23, 2022
+'''
+
 import nltk
 from nltk.corpus import brown
 
