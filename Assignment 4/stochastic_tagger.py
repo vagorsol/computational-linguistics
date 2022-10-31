@@ -5,24 +5,42 @@
 '''
 
 import nltk 
-import nltk.tag
+from nltk.corpus import brown
 
-# open and tokenize the sample texts (into sentences)
-cs_text = open("CS.txt", "r").read()
-# print(cs_text)
-cs_words = nltk.word_tokenize(cs_text)
-print(cs_words)
+# RE tagger
+# universal tagset not included: ADP, CONJ, PRT, X (other), PRON
+patterns = [
+   (r'[\.,:;?!]', '.'), # punctuation
+   (r'^-?[0-9]+(.[0-9]+)?$', 'NUM'), # cardinal numbers
+   (r'(The|the|A|a|An|an)$', 'DET'), # articles
+   (r'(At|at|On|on|Out|out|Over|over|Per|per|That|that|Up|up|Down|down)$', 'PRT'), # articles
+   (r'.*able$', 'ADJ'), # adjectives
+   (r'.*ness$', 'NOUN'), # nouns from adjectives
+   (r'.*ly$', 'ADV'), # adverbs
+   (r'.*s$', 'NOUN'), # plural noun
+   (r'.*ing$', 'VERB'), # gerund
+   (r'.*ed$', 'VERB'), # simple past
+   (r'.*es$', 'VERB'), # 3rd person singular present
+   (r'.*ould$', 'VERB'), # modal
+   (r'.*\'s', 'NOUN'), # possessive noun
+   (r'.*', 'NOUN') # noun default
+]
 
-tagging_dictionary = {}
-for(word, tag) in cs_words:
-    if tag not in tagging_dictionary:
-        tagging_dictionary[tag] = 1
-    else: 
-        tagging_dictionary[tag] += 1
+reTagr = nltk.RegexpTagger(patterns)
 
-tags = [tag for (word, tag) in tagging_dictionary]
+bts = brown.tagged_sents(categories="news", tagset="universal")
+bs = brown.sents(categories="news")
 
-tagDist = nltk.FreqDist(tags)
+# divide the text into train and test sets
+n = int(len(bs) * 0.9)
+trainset = bts[:n]
+testset = bts[n:]
 
-uTagr = nltk.UnigramTagger()
-        
+# stochastic tagger
+dTagr = nltk.DefaultTagger("NOUN")
+uTagr = nltk.UnigramTagger(trainset, backoff = dTagr)
+biTagr = nltk.BigramTagger(trainset, backoff = uTagr)
+
+print(biTagr.accuracy(testset))
+
+# TODO: RE backoff tagger and RE itself evaluation
