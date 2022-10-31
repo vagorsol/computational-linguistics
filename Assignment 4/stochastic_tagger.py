@@ -17,7 +17,7 @@ patterns = [
    (r'I|you|You|he|He|she|She|it|It|we|We|they|They|who|Who|what|What', 'PRON'), # personal pronouns
    (r'For|for|and|And|nor|Nor|but|But|or|Or|yet|Yet|so|So', 'CONJ'), # conjunctions 
    (r'is|Is|are|Are|was|Was|were|Were|am|Am|been|Been','VERB'), # verb present singular first person
-   (r'of|Of|in|In|for|For|to|To|on|On|at|At|that|That|with|With|by|By|As|as|from|From'), # adpositions
+   (r'of|Of|in|In|for|For|to|To|on|On|at|At|that|That|with|With|by|By|As|as|from|From', 'ADP'), # adpositions
    (r'.*able$', 'ADJ'), # adjectives
    (r'.*ness$', 'NOUN'), # nouns from adjectives
    (r'.*ly$', 'ADV'), # adverbs
@@ -32,27 +32,51 @@ patterns = [
 
 reTagr = nltk.RegexpTagger(patterns)
 
-bts = brown.tagged_sents(categories="news", tagset="universal")
-bs = brown.sents(categories="news")
+# NEWS CORPUS
+nts = brown.tagged_sents(categories="news", tagset="universal")
 
 # divide the text into train and test sets
-n = int(len(bs) * 0.9)
-trainset = bts[:n]
-testset = bts[n:]
-print(len(testset))
+n = int(len(nts) * 0.9)
+trainset_news = nts[:n]
+testset_news = nts[n:]
 
 # stochastic tagger
 dTagr = nltk.DefaultTagger("NOUN")
-uTagr = nltk.UnigramTagger(trainset, backoff = dTagr)
-biTagr = nltk.BigramTagger(trainset, backoff = uTagr)
+uTagr = nltk.UnigramTagger(trainset_news, backoff = dTagr)
+biTagr = nltk.BigramTagger(trainset_news, backoff = uTagr)
 
-print(biTagr.accuracy(testset))
+# RE backoff tagger
+uREtagr = nltk.UnigramTagger(trainset_news, backoff = reTagr)
+biREtagr = nltk.BigramTagger(trainset_news, backoff = uREtagr)
 
+print("News Brown Corpus")
+print(f"Bigram Default Tagger Backoff Accuracy: {biTagr.accuracy(testset_news)}")
+print(f"Bigram RE Backoff Accuracy: {biREtagr.accuracy(testset_news)}")
+print(f"RE Tagger Accuracy: {reTagr.accuracy(testset_news)}")
+
+# FICTION CORPUS
+fts = brown.tagged_sents(categories="fiction", tagset="universal")
+n = int(len(fts) * 0.9)
+trainset_fic = nts[:n]
+testset_fic = nts[n:]
+
+# stochastic tagger
+dTagr = nltk.DefaultTagger("NOUN")
+uTagr = nltk.UnigramTagger(trainset_fic, backoff = dTagr)
+biTagr = nltk.BigramTagger(trainset_fic, backoff = uTagr)
+
+# RE backoff tagger
+uREtagr = nltk.UnigramTagger(trainset_fic, backoff = reTagr)
+biREtagr = nltk.BigramTagger(trainset_fic, backoff = uREtagr)
+
+print("\nFiction Brown Corpus")
+print(f"Bigram Default Tagger Backoff Accuracy: {biTagr.accuracy(testset_fic)}")
+print(f"Bigram RE Backoff Accuracy: {biREtagr.accuracy(testset_fic)}")
+print(f"RE Tagger Accuracy: {reTagr.accuracy(testset_fic)}")
+
+# open and tokenize the sample texts
 cs_text = open("CS.txt", "r").read()
 cs_words = nltk.word_tokenize(cs_text)
-print(biTagr.tag(cs_words))
 
 animals_text = open("Animals.txt", "r").read()
 animals_words = nltk.word_tokenize(animals_text)
-print(biTagr.tag(animals_words))
-# TODO: RE backoff tagger and RE itself evaluation
